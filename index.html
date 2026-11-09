@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#173b32">
+<link rel="manifest" href="manifest.json">
+<title>ЭтноАрхив</title>
+<style>
+:root{--bg:#f4f2eb;--card:#fffdf8;--ink:#202923;--muted:#68736b;--green:#173b32;--gold:#c28a3d;--line:#e4e0d5}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:var(--green);color:white;padding:24px 18px 20px}header .top{max-width:900px;margin:auto}h1{font-size:27px;margin:0 0 4px;letter-spacing:.2px}header p{margin:0;color:#dce7df;font-size:14px}
+main{max-width:900px;margin:0 auto;padding:16px 14px 40px}.tabs{display:flex;gap:8px;overflow:auto;padding:3px 0 13px;position:sticky;top:0;background:var(--bg);z-index:2}
+.tab{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:9px 14px;white-space:nowrap;color:var(--ink);font-weight:600}.tab.active{background:var(--green);color:white;border-color:var(--green)}
+.panel{display:none}.panel.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;margin:0 0 13px;box-shadow:0 3px 12px #29352b0a}
+h2{font-size:19px;margin:0 0 12px}h3{font-size:16px;margin:0 0 8px}.muted{color:var(--muted);font-size:13px}.hero{background:#e8eee7;border:1px solid #d7e1d7;border-radius:18px;padding:18px;margin-bottom:14px}.hero strong{font-size:18px;display:block;margin-bottom:5px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tile{background:var(--card);border:1px solid var(--line);padding:15px;border-radius:15px;min-height:92px}.tile b{display:block;margin-bottom:3px}
+button,.filelabel{border:0;border-radius:12px;background:var(--green);color:white;padding:11px 14px;font:600 14px system-ui;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+button.secondary,.filelabel.secondary{background:#e8eee7;color:var(--green);border:1px solid #d7e1d7}
+button.danger{background:#f7e9e5;color:#8d3827}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+input,textarea{font:inherit}input[type=text],textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:white;margin:5px 0 10px}
+input[type=file]{display:none}label.field{display:block;font-weight:600;font-size:14px;margin:10px 0 3px}
+input[type=range]{width:100%;accent-color:var(--green)}.rangehead{display:flex;justify-content:space-between;gap:10px;font-size:14px;margin-top:12px}
+.track{border:1px solid var(--line);border-radius:13px;padding:12px;margin:10px 0;background:#fff}.tracktop{display:flex;align-items:center;justify-content:space-between;gap:8px}.trackname{font-weight:650;overflow-wrap:anywhere}.track small{color:var(--muted)}
+.track input[type=range]{margin:8px 0 0}.track button{padding:7px 10px;font-size:12px}
+.listitem{padding:12px 0;border-bottom:1px solid var(--line)}.listitem:last-child{border:0}
+.empty{padding:20px;text-align:center;color:var(--muted);border:1px dashed #c9c5b9;border-radius:14px}
+.scoreframe{width:100%;height:65vh;border:1px solid var(--line);border-radius:12px;background:white}
+.notice{background:#fff5df;border:1px solid #ead5a8;border-radius:12px;padding:11px 13px;font-size:13px;color:#634b25}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:18px}
+@media(max-width:520px){header{padding-top:20px}.grid{grid-template-columns:1fr 1fr}.card{padding:14px}.scoreframe{height:55vh}}
+</style>
+</head>
+<body>
+<header><div class="top"><h1>ЭтноАрхив</h1><p>Цифровая библиотека народной культуры России</p></div></header>
+<main>
+<nav class="tabs" aria-label="Разделы">
+<button class="tab active" data-tab="home">Главная</button><button class="tab" data-tab="audio">Аудиотека</button><button class="tab" data-tab="scores">Партитуры</button><button class="tab" data-tab="field">Полевой дневник</button><button class="tab" data-tab="library">Моя библиотека</button>
+</nav>
+<section class="panel active" id="home">
+<div class="hero"><strong>Собирайте, изучайте и сохраняйте фольклор</strong><span>Записи экспедиций, народные песни, многодорожечное звучание и нотные материалы — в одном месте.</span></div>
+<div class="grid">
+<div class="tile"><b>🎙 Аудиотека</b><span class="muted">Загружайте песни и полевые записи</span></div>
+<div class="tile"><b>🎚 Многодорожечность</b><span class="muted">Слушайте отдельные микрофоны и инструменты</span></div>
+<div class="tile"><b>🎼 Нотный архив</b><span class="muted">Храните PDF и фотографии партитур</span></div>
+<div class="tile"><b>📓 Полевой дневник</b><span class="muted">Фиксируйте место, дату и сведения о записи</span></div>
+</div>
+<div class="card" style="margin-top:14px"><h2>Быстрый старт</h2><p class="muted">Добавьте аудиозапись или партитуру. Файлы будут храниться в памяти этого браузера на устройстве.</p><div class="actions"><button onclick="go('audio')">Добавить аудио</button><button class="secondary" onclick="go('scores')">Добавить партитуру</button></div></div>
+<div class="notice">Важно: это локальная версия-прототип. Данные хранятся на этом устройстве и в этом браузере. Очистка данных браузера может удалить библиотеку.</div>
+</section>
+<section class="panel" id="audio">
+<div class="card"><h2>Добавить аудиодорожки</h2><p class="muted">Можно выбрать несколько файлов сразу: например, отдельные микрофоны, голоса или инструменты. Они будут запускаться синхронно.</p>
+<label class="filelabel" for="audioFiles">＋ Выбрать аудиофайлы</label><input id="audioFiles" type="file" accept="audio/*" multiple>
+<div id="tracks"><div class="empty">Пока нет дорожек. Добавьте аудиофайлы.</div></div>
+<div class="actions"><button id="playAll">▶ Воспроизвести все</button><button class="secondary" id="stopAll">■ Остановить</button><button class="secondary" id="clearTracks">Очистить список</button></div>
+<div class="rangehead"><label for="speed">Скорость воспроизведения</label><b id="speedVal">100%</b></div><input id="speed" type="range" min="50" max="200" value="100" step="5">
+<div class="rangehead"><label for="pitch">Высота тона</label><b id="pitchVal">0 полутонов</b></div><input id="pitch" type="range" min="-12" max="12" value="0" step="1">
+<p class="muted">Примечание: в этой браузерной версии изменение скорости и высоты тона пока связано. Независимое изменение без влияния одного параметра на другой требует отдельного аудио-модуля.</p>
+</div>
+</section>
+<section class="panel" id="scores">
+<div class="card"><h2>Нотный архив</h2><p class="muted">Добавляйте партитуры в PDF или изображения нотных страниц.</p>
+<label class="filelabel" for="scoreFiles">＋ Добавить партитуру</label><input id="scoreFiles" type="file" accept="application/pdf,image/*" multiple>
+<div id="scoreList"><div class="empty">Партитур пока нет.</div></div></div>
+<div class="card" id="scoreViewer" hidden><h2 id="scoreTitle">Просмотр</h2><div id="scoreContent"></div><div class="actions"><button class="secondary" id="closeScore">Закрыть просмотр</button></div></div>
+</section>
+<section class="panel" id="field">
+<div class="card"><h2>Новая полевая заметка</h2>
+<label class="field">Название / название песни</label><input id="noteTitle" type="text" placeholder="Например, свадебная песня">
+<label class="field">Регион и населённый пункт</label><input id="notePlace" type="text" placeholder="Область, район, деревня">
+<label class="field">Дата записи</label><input id="noteDate" type="text" placeholder="ДД.ММ.ГГГГ или приблизительно">
+<label class="field">Исполнитель, собиратель, обстоятельства</label><textarea id="noteText" rows="4" placeholder="Укажите сведения об источнике, исполнителе и условиях записи"></textarea>
+<label class="field"><input id="consent" type="checkbox" style="display:inline;width:auto"> Есть разрешение на хранение и использование материала</label>
+<div class="actions"><button id="saveNote">Сохранить заметку</button></div></div>
+<div class="card"><h2>Записи дневника</h2><div id="notes"><div class="empty">Заметок пока нет.</div></div></div>
+</section>
+<section class="panel" id="library">
+<div class="card"><h2>Моя библиотека</h2><div id="libraryStats" class="muted">Здесь появятся ваши аудиозаписи, партитуры и заметки.</div><div class="actions"><button class="secondary" id="exportData">Экспортировать заметки (JSON)</button></div></div>
+<div class="notice">Файлы не отправляются на сервер. Чтобы перенести материалы на другое устройство, потребуется отдельная функция резервного копирования файлов.</div>
+</section>
+<footer>ЭтноАрхив · локальный прототип</footer>
+</main>
+<script>
+const DB='ethnoarchive-db', STORE='files';
+let db, tracks=[], notes=[], scores=[], sources=[];
+function openDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore(STORE,{keyPath:'id',autoIncrement:true});r.onsuccess=()=>{db=r.result;resolve(db)};r.onerror=()=>reject(r.error)})}
+function putFile(item){return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).add(item).onsuccess=e=>resolve(e.target.result);tx.onerror=()=>reject(tx.error)})}
+function getAll(){return new Promise((resolve,reject)=>{const r=db.transaction(STORE).objectStore(STORE).getAll();r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+function delFile(id){return new Promise(resolve=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(id);tx.oncomplete=resolve})}
+function go(id){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>go(b.dataset.tab));
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+async function refresh(){const all=await getAll();tracks=all.filter(x=>x.kind==='audio');scores=all.filter(x=>x.kind==='score');renderTracks();renderScores();renderStats()}
+function renderTracks(){const root=document.getElementById('tracks');if(!tracks.length){root.innerHTML='<div class="empty">Пока нет дорожек. Добавьте аудиофайлы.</div>';return}
+root.innerHTML=tracks.map(t=>`<div class="track"><div class="tracktop"><div><div class="trackname">${esc(t.name)}</div><small>${(t.file.size/1048576).toFixed(1)} МБ</small></div><button class="danger" onclick="removeFile(${t.id})">Удалить</button></div><div class="rangehead"><span>Громкость</span><b id="volv${t.id}">100%</b></div><input type="range" min="0" max="100" value="100" oninput="setVol(${t.id},this.value)"></div>`).join('')}
+async function removeFile(id){stopAll();await delFile(id);await refresh()}
+function setVol(id,v){const t=tracks.find(x=>x.id===id);if(t)t.volume=Number(v)/100;document.getElementById('volv'+id).textContent=v+'%';if(t&&t.gain)t.gain.gain.value=t.volume}
+document.getElementById('audioFiles').onchange=async e=>{for(const file of e.target.files){if(!file.type.startsWith('audio/'))continue;await putFile({kind:'audio',name:file.name,file})}e.target.value='';await refresh()};
+let ctx=null;
+async function playAll(){stopAll();if(!tracks.length)return;ctx=new (window.AudioContext||window.webkitAudioContext)();await ctx.resume();const speed=Number(document.getElementById('speed').value)/100,pitch=Number(document.getElementById('pitch').value);
+for(const t of tracks){try{const buf=await ctx.decodeAudioData(await t.file.arrayBuffer());const src=ctx.createBufferSource(),gain=ctx.createGain();src.buffer=buf;src.playbackRate.value=speed*Math.pow(2,pitch/12);gain.gain.value=t.volume??1;src.connect(gain).connect(ctx.destination);src.start();t.gain=gain;t.source=src;sources.push(src);src.onended=()=>{sources=sources.filter(x=>x!==src)}}catch(err){alert('Не удалось открыть файл: '+t.name)}}
+}
+function stopAll(){sources.forEach(s=>{try{s.stop()}catch(e){}});sources=[];tracks.forEach(t=>{t.source=null;t.gain=null});if(ctx){ctx.close();ctx=null}}
+document.getElementById('playAll').onclick=playAll;document.getElementById('stopAll').onclick=stopAll;document.getElementById('clearTracks').onclick=async()=>{stopAll();for(const t of tracks)await delFile(t.id);await refresh()};
+document.getElementById('speed').oninput=e=>{document.getElementById('speedVal').textContent=e.target.value+'%'};document.getElementById('pitch').oninput=e=>{const v=Number(e.target.value);document.getElementById('pitchVal').textContent=(v>0?'+':'')+v+' полутонов'};
+document.getElementById('scoreFiles').onchange=async e=>{for(const file of e.target.files){if(file.type==='application/pdf'||file.type.startsWith('image/'))await putFile({kind:'score',name:file.name,file})}e.target.value='';await refresh()};
+function renderScores(){const root=document.getElementById('scoreList');if(!scores.length){root.innerHTML='<div class="empty">Партитур пока нет.</div>';return}root.innerHTML=scores.map(s=>`<div class="listitem"><b>${esc(s.name)}</b><div class="actions"><button onclick="viewScore(${s.id})">Открыть</button><button class="danger" onclick="removeFile(${s.id})">Удалить</button></div></div>`).join('')}
+async function viewScore(id){const s=scores.find(x=>x.id===id);if(!s)return;const url=URL.createObjectURL(s.file);document.getElementById('scoreTitle').textContent=s.name;const box=document.getElementById('scoreContent');if(s.file.type==='application/pdf')box.innerHTML=`<iframe class="scoreframe" src="${url}"></iframe>`;else box.innerHTML=`<img src="${url}" style="max-width:100%;height:auto;border-radius:10px">`;document.getElementById('scoreViewer').hidden=false;document.getElementById('scoreViewer').scrollIntoView({behavior:'smooth'})}
+document.getElementById('closeScore').onclick=()=>{document.getElementById('scoreViewer').hidden=true;document.getElementById('scoreContent').innerHTML=''};
+document.getElementById('saveNote').onclick=()=>{const n={title:document.getElementById('noteTitle').value.trim(),place:document.getElementById('notePlace').value.trim(),date:document.getElementById('noteDate').value.trim(),text:document.getElementById('noteText').value.trim(),consent:document.getElementById('consent').checked};if(!n.title&&!n.text){alert('Добавьте название или текст заметки');return}notes.push(n);localStorage.setItem('ethno-notes',JSON.stringify(notes));renderNotes();['noteTitle','notePlace','noteDate','noteText'].forEach(id=>document.getElementById(id).value='');document.getElementById('consent').checked=false};
+function renderNotes(){const root=document.getElementById('notes');if(!notes.length){root.innerHTML='<div class="empty">Заметок пока нет.</div>';return}root.innerHTML=notes.map(n=>`<div class="listitem"><b>${esc(n.title||'Без названия')}</b><div class="muted">${esc([n.place,n.date].filter(Boolean).join(' · '))}</div><p>${esc(n.text)}</p><small>${n.consent?'Разрешение отмечено':'Разрешение не отмечено'}</small></div>`).join('')}
+function renderStats(){document.getElementById('libraryStats').textContent=`Аудиодорожек: ${tracks.length} · Партитур: ${scores.length} · Заметок: ${notes.length}`}
+document.getElementById('exportData').onclick=()=>{const blob=new Blob([JSON.stringify(notes,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ethnoarchive-notes.json';a.click();URL.revokeObjectURL(a.href)};
+(async()=>{notes=JSON.parse(localStorage.getItem('ethno-notes')||'[]');renderNotes();await openDB();await refresh();if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});})();
+</script>
+</body></html>
